@@ -5,20 +5,20 @@
 #define MY_UUID { 0x0F, 0xA6, 0xE1, 0x51, 0xCF, 0x7E, 0x45, 0x39, 0x8E, 0xE2, 0x02, 0x71, 0xD4, 0xE5, 0x12, 0x0A }
 PBL_APP_INFO(MY_UUID,
              "Squared", "lastfuture",
-             1, 2, /* App version */
+             1, 3, /* App version */
              RESOURCE_ID_IMAGE_MENU_ICON,
              APP_INFO_WATCH_FACE);
 
 Window window;
 
 #define US_DATE true // true == MM/DD, false == DD/MM
-#define NO_ZERO true // false == replaces leading Zero for hour, day, month with a "cycler"
+#define NO_ZERO true // true == replaces leading Zero for hour, day, month with a "cycler"
 #define TILE_SIZE 10
 #define NUMSLOTS 8
 #define SPACING_X TILE_SIZE
 #define SPACING_Y TILE_SIZE
-#define DIGIT_CHANGE_ANIM_DURATION 1800
-#define STARTDELAY 2500
+#define DIGIT_CHANGE_ANIM_DURATION 1700
+#define STARTDELAY 2000
 
 #define FONT blocks
 	
@@ -163,7 +163,7 @@ void updateSlot(digitSlot *slot, GContext *ctx) {
 		widthadjust = 1;
 	}
 	tilesize = TILE_SIZE/slot->divider;
-	uint32_t skewedNormTime = slot->normTime*2;
+	uint32_t skewedNormTime = slot->normTime*3;
 	graphics_context_set_fill_color(ctx, GColorBlack);
 	graphics_fill_rect(ctx, GRect(0, 0, slot->layer.bounds.size.w, slot->layer.bounds.size.h), 0, GCornerNone);
 	for (t=0; t<total; t++) {
@@ -171,7 +171,7 @@ void updateSlot(digitSlot *slot, GContext *ctx) {
 		offs = 0;
 		tx = t % FONT_WIDTH_BLOCKS;
 		ty = t / FONT_HEIGHT_BLOCKS;
-		shift = tx-ty;
+		shift = 0-(t-ty);
 		if (FONT[slot->curDigit][ty][tx] == FONT[slot->prevDigit][ty][tx]) {
 			if(FONT[slot->curDigit][ty][tx]) {
 				w = tilesize;
