@@ -11,7 +11,8 @@ PBL_APP_INFO(MY_UUID,
 
 Window window;
 
-#define US_DATE false // true == MM/DD, false == DD/MM
+#define US_DATE true // true == MM/DD, false == DD/MM
+#define NO_ZERO true // false == replaces leading Zero for hour, day, month with a "cycler"
 #define TILE_SIZE 10
 #define NUMSLOTS 8
 #define SPACING_X TILE_SIZE
@@ -251,22 +252,24 @@ void handle_tick(AppContextRef ctx, PebbleTickEvent *evt) {
 			slot[7].curDigit = mo%10;
 		}
 		
-		if (slot[0].curDigit == 0) {
-			slot[0].curDigit = 10;
-			if (slot[0].prevDigit == 10) {
-				slot[0].curDigit++;
+		if (NO_ZERO) {
+			if (slot[0].curDigit == 0) {
+				slot[0].curDigit = 10;
+				if (slot[0].prevDigit == 10) {
+					slot[0].curDigit++;
+				}
 			}
-		}
-		if (slot[4].curDigit == 0) {
-			slot[4].curDigit = 10;
-			if (slot[4].prevDigit == 10) {
-				slot[4].curDigit++;
+			if (slot[4].curDigit == 0) {
+				slot[4].curDigit = 10;
+				if (slot[4].prevDigit == 10) {
+					slot[4].curDigit++;
+				}
 			}
-		}
-		if (slot[6].curDigit == 0) {
-			slot[6].curDigit = 10;
-			if (slot[6].prevDigit == 10) {
-				slot[6].curDigit++;
+			if (slot[6].curDigit == 0) {
+				slot[6].curDigit = 10;
+				if (slot[6].prevDigit == 10) {
+					slot[6].curDigit++;
+				}
 			}
 		}
         animation_schedule(&anim);
